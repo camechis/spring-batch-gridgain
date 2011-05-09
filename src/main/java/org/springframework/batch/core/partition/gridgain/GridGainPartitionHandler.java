@@ -12,7 +12,7 @@ import org.springframework.batch.core.partition.StepExecutionSplitter;
 public class GridGainPartitionHandler implements PartitionHandler {
 
 	public Collection<StepExecution> handle(StepExecutionSplitter stepSplitter, StepExecution stepExecution) throws Exception {
-		Grid grid = GridFactory.getGrid();
+		Grid grid = GridFactory.grid();
 		PartitionProvider partitionProvider = new PartitionProvider(stepSplitter, stepExecution);
 		GridTaskFuture<Collection<StepExecution>> future = grid.execute(GridGainPartitionTask.class, partitionProvider );
 		return future.get();
