@@ -15,7 +15,8 @@ import org.gridgain.grid.resources.GridLoggerResource;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.StepExecution;
 
-public class GridGainPartitionTask extends GridTaskSplitAdapter<PartitionProvider, Collection<StepExecution>> {
+public class GridGainPartitionTask extends
+		GridTaskSplitAdapter<PartitionProvider, Collection<StepExecution>> {
 
 	@GridLoggerResource
 	private GridLogger log = null;
@@ -24,15 +25,17 @@ public class GridGainPartitionTask extends GridTaskSplitAdapter<PartitionProvide
 	protected Collection<? extends GridJob> split(int gridSize, PartitionProvider stepSplit) throws GridException {
 
 		log.info("Executing steps for grid size=" + gridSize);
-
+		System.out.println("Executing steps for grid size=" + gridSize );
 		List<GridJob> jobs = new ArrayList<GridJob>(gridSize);
 
-		final String stepName = stepSplit.getStepName();
-
+		//final String stepName = stepSplit.getStepName();
+		final String stepName = "step";
+		System.out.println("STEP NAME IS = " + stepName);
 		try {
+			System.out.println("SPLITTING JOB");
 			for (final StepExecution stepExecution : stepSplit.getStepExecutions(gridSize)) {
-
-				RemoteStepExecutor stepExecutor = new RemoteStepExecutor("/launch-context.xml", stepName, stepExecution);
+				System.out.println("SPLIT JOB ONCE");
+				RemoteStepExecutor stepExecutor = new RemoteStepExecutor("META-INF/spring/applicationContext.xml", stepName, stepExecution);
 				jobs.add(new GridJobAdapter<RemoteStepExecutor>(stepExecutor) {
 					public Serializable execute() {
 						RemoteStepExecutor stepExecutor = getArgument();
@@ -50,7 +53,8 @@ public class GridGainPartitionTask extends GridTaskSplitAdapter<PartitionProvide
 		return jobs;
 	}
 
-	public Collection<StepExecution> reduce(List<GridJobResult> results) throws GridException {
+	public Collection<StepExecution> reduce(List<GridJobResult> results)
+			throws GridException {
 		Collection<StepExecution> total = new ArrayList<StepExecution>();
 		for (GridJobResult res : results) {
 			StepExecution status = res.getData();

@@ -91,6 +91,39 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
 		</dependency>
+		
+			<!-- GATE 6.0 -->
+		<dependency>
+			<groupId>uk.ac.gate</groupId>
+			<artifactId>gate-core</artifactId>
+			<version>6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gate</groupId>
+			<artifactId>gate-compiler-jdt</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+			<version>0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ontotext.gate</groupId>
+			<artifactId>gazetteer</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nekohtml</groupId>
+			<artifactId>nekohtml</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
