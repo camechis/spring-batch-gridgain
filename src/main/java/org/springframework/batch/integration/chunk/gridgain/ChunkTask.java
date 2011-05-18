@@ -1,7 +1,5 @@
 package org.springframework.batch.integration.chunk.gridgain;
 
-import gate.util.DocumentProcessor;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,18 +7,16 @@ import java.util.List;
 
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
-import org.gridgain.grid.GridJobAdapter;
+import org.gridgain.grid.GridJobAdapterEx;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.logger.GridLogger;
 import org.gridgain.grid.resources.GridLoggerResource;
 import org.gridgain.grid.resources.GridSpringResource;
-import org.gridgain.grid.resources.GridUserResource;
 import org.springframework.batch.core.step.item.Chunk;
 import org.springframework.batch.core.step.item.ChunkProcessor;
 import org.springframework.batch.integration.chunk.ChunkRequest;
 import org.springframework.batch.integration.chunk.ChunkResponse;
-import org.springframework.batch.integration.chunk.SerializableChunkProcessor;
 
 /**
  * 
@@ -60,7 +56,7 @@ public class ChunkTask<T> extends GridTaskSplitAdapter<ChunkRequest<T>, ChunkRes
 		//ChunkTaskParameters parameters = new ChunkTaskParameters(this.processor, request);
 		ChunkTaskParameters parameters = new ChunkTaskParameters(request);
 		// Every job gets its own word as an argument.
-		jobs.add(new GridJobAdapter<ChunkTaskParameters>(parameters) {
+		jobs.add(new GridJobAdapterEx(parameters) {
 
 			/**
 			 * Default serial version UID.
@@ -75,7 +71,7 @@ public class ChunkTask<T> extends GridTaskSplitAdapter<ChunkRequest<T>, ChunkRes
 			private transient ChunkProcessor<T> processor;
 			
 			public Serializable execute() {
-				ChunkTaskParameters parameters = getArgument();
+				ChunkTaskParameters parameters = argument();
 				Exception exception = null;
 			
 				try {
